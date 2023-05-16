@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserFormRequest;
 use App\Models\UserRequest;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,19 +23,9 @@ class UserRequestController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(UserFormRequest $request): RedirectResponse
     {
-        $request->validate([
-            'email' => 'required|string|email|max:255|:',
-            'message' => 'required|string|max:500',
-        ]);
-
-        UserRequest::create([
-            'ip' => $request->ip,
-            'request_type' => $request->type,
-            'email' => $request->email,
-            'message' => $request->message,
-        ]);
+        $request->store();
 
         return Redirect::to('/');
     }
@@ -58,11 +48,12 @@ class UserRequestController extends Controller
         return response()->json(['message' => 'User request status updated successfully']);
     }
 
-    public function destroy(UserRequest $userRequest)
+    public function destroy($id)
     {
+        $userRequest = UserRequest::findOrFail($id);
         $userRequest->delete();
 
-        return response()->json(['message' => 'User request deleted successfully']);
+        return response()->json(['message' => 'User request deleted successfully'], 204);
     }
 
     public function destroyAll()
