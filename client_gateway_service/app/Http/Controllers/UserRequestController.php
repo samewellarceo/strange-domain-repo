@@ -12,38 +12,63 @@ use Inertia\Response;
 
 class UserRequestController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request): Response
+    public function create(): Response
     {
         $routeName = request()->route()->getName();
+        $ip = request()->ip();
 
         return Inertia::render('Request', [
             'type' => $routeName,
-            'ip' => $request->ip()
+            'ip' => $ip
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => 'required|string|email|max:255|:' . UserRequest::class,
+            'email' => 'required|string|email|max:255|:',
             'message' => 'required|string|max:500',
         ]);
 
-        $userRequest = UserRequest::create([
+        UserRequest::create([
             'ip' => $request->ip,
             'request_type' => $request->type,
             'email' => $request->email,
             'message' => $request->message,
         ]);
 
-        event(new Registered($userRequest));
-
         return Redirect::to('/');
+    }
+
+    // API routes
+
+    public function index()
+    {
+        $userRequests = UserRequest::get();
+
+        return response()->json($userRequests);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $userRequest = UserRequest::findOrFail($id);
+        $userRequest->status = $request->input('status');
+        $userRequest->save();
+
+        return response()->json(['message' => 'User request status updated successfully']);
+    }
+
+    public function destroy(UserRequest $userRequest)
+    {
+        $userRequest->delete();
+
+        return response()->json(['message' => 'User request deleted successfully']);
+    }
+
+    public function destroyAll()
+    {
+        UserRequest::truncate();
+
+        return response()->json(['message' => 'All user requests deleted successfully']);
     }
 }
