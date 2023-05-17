@@ -25,7 +25,7 @@ class UserFormRequest extends FormRequest
         return [
             'email' => 'required|string|email|max:255|',
             'message' => 'required|string|max:500',
-            'type' => 'required|string|in:registration,new-ip'
+            'request_type' => 'required|string|in:registration,new-ip'
         ];
     }
 
@@ -33,7 +33,7 @@ class UserFormRequest extends FormRequest
     {
         return UserRequest::create([
             'ip' => $this->ip,
-            'request_type' => $this->type,
+            'request_type' => $this->request_type,
             'email' => $this->email,
             'message' => $this->message
         ]);

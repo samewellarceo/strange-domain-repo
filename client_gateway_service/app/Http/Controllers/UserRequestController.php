@@ -18,7 +18,7 @@ class UserRequestController extends Controller
         $ip = request()->ip();
 
         return Inertia::render('Request', [
-            'type' => $routeName,
+            'request_type' => $routeName,
             'ip' => $ip
         ]);
     }

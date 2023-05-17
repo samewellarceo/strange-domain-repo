@@ -5,10 +5,10 @@ import TextInput from '@/Components/TextInput';
 import TextArea from '@/Components/TextArea';
 import { Head, useForm } from '@inertiajs/react';
 
-const Request = ({ type, ip }) => {
+const Request = ({ request_type, ip }) => {
     const { data, setData, post, processing} = useForm({
         ip,
-        type,
+        request_type,
         email: '',
         message: '',
     });
@@ -16,12 +16,12 @@ const Request = ({ type, ip }) => {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route(type));
+        post(route(request_type));
     };
     
     return (
         <GuestLayout>
-            <Head title={type == 'new-ip' ? 'Add New IP Request' : 'Registration Request'} />
+            <Head title={request_type == 'new-ip' ? 'Add New IP Request' : 'Registration Request'} />
 
             <form onSubmit={submit}>
                 <div className="mt-4">
