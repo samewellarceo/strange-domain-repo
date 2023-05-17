@@ -54,7 +54,7 @@ const Request = ({ request_type, ip }) => {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="message" value={type == 'registration' ? 'Message' : 'Reason'} />
+                    <InputLabel htmlFor="message" value={request_type == 'registration' ? 'Message' : 'Reason'} />
 
                     <TextArea
                         id="message"
