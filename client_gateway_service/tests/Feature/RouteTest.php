@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 
-class ApiTest extends TestCase
+class RouteTest extends TestCase
 {
     private $base_api_url = '/api/requests';
     private $ip = ['REMOTE_ADDR' => '127.0.0.1'];
