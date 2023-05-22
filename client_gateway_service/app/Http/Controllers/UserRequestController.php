@@ -39,6 +39,14 @@ class UserRequestController extends Controller
         return response()->json($userRequests);
     }
 
+    public function show($id)
+    {
+        $userRequest = UserRequest::findOrFail($id);
+        $userRequest->get();
+
+        return response()->json($userRequest);
+    }
+
     public function update(Request $request, $id)
     {
         $userRequest = UserRequest::findOrFail($id);

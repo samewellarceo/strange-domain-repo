@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequestsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
 
 /*
@@ -29,9 +31,20 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/requests', function () {
-    return Inertia::render('Requests');
-})->middleware(['auth', 'verified'])->name('requests');
+Route::get('/requests', [RequestsController::class, 'index'])
+    ->middleware(['auth', 'verified'])->name('requests');
+
+Route::get('/requests/{id}', [RequestsController::class, 'show'])
+    ->middleware(['auth', 'verified'])->name('request.show');
+
+Route::patch('/requests/{id}', [RequestsController::class, 'update'])
+    ->middleware(['auth', 'verified'])->name('request.update');
+
+Route::delete('/requests/{id}', [RequestsController::class, 'destroy'])
+    ->middleware(['auth', 'verified'])->name('request.delete');
+
+Route::delete('/requests/', [RequestsController::class, 'destroyAll'])
+    ->middleware(['auth', 'verified'])->name('request.delete.all');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

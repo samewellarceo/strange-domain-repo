@@ -16,8 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('requests')->middleware('ipfilter')->group(function () {
     Route::get('/', [UserRequestController::class, 'index']);
+    Route::get('/{id}', [UserRequestController::class, 'show']);
 
-    Route::put('/{id}', [UserRequestController::class, 'update']);
+    Route::patch('/{id}', [UserRequestController::class, 'update']);
 
     Route::delete('/{id}', [UserRequestController::class, 'destroy']);
     Route::delete('/', [UserRequestController::class, 'destroyAll']);

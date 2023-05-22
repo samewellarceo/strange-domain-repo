@@ -1,8 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-// import Request from '@/Components/Request';
+import Table from '@/Components/Table';
 
-export default function Requests({ auth }) {
+export default function Requests({ auth, data }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -14,7 +14,7 @@ export default function Requests({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            
+                            <Table data={data}/>
                         </div>
                     </div>
                 </div>
