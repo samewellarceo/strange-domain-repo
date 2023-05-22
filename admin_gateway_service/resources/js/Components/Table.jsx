@@ -1,9 +1,9 @@
-import { Link } from '@inertiajs/react';
 import { useState } from 'react';
 import InputLabel from '@/Components/InputLabel';
 import UpdateStatus from '@/Components/UpdateStatus';
 import DeleteRequest from '@/Components/DeleteRequest';
 import DeleteAllRequests from '@/Components/DeleteAllRequests';
+import ViewRequest from '@/Components/ViewRequest';
 
 const Table = ({ data = {} }) => {
     const [sortDirection, setSortDirection] = useState('asc');
@@ -99,7 +99,7 @@ const Table = ({ data = {} }) => {
                             Email
                             <span className={`ml-4 ${sortType === 'email' ? `text-gray-800` : `text-gray-300`}`}>{sortDirection === 'asc' ? '▲' : '▼'}</span>
                         </th>
-                        <th className="px-6 py-3 font-bold tracking-wider">
+                        <th className="px-6 py-3 font-bold text-left tracking-wider">
                             Request Type 
                         </th>
                         <th className="px-6 py-3 text-center font-bold tracking-wider">
@@ -110,7 +110,6 @@ const Table = ({ data = {} }) => {
                             <span className={`ml-4 ${sortType === 'created_at' ? `text-gray-800` : `text-gray-300`}`}>{sortDirection === 'asc' ? '▲' : '▼'}</span>
                         </th>
                         <th className="px-6 py-3 text-center font-bold tracking-wider">
-                            Action
                         </th>
                     </tr>
                 </thead>
@@ -134,17 +133,16 @@ const Table = ({ data = {} }) => {
                                     {new Date(request.created_at).toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'medium' })}
                                 </td>
                                 <td className="px-6 py-4 text-right text-sm font-medium">
-                                    
-                                    <Link href={route('request.show', { id: request.id })} className='mr-1 items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150'>View</Link>
-                                    <UpdateStatus className={request.status ? 'hidden' : 'inline-block'}  id={request.id} />
-                                    <DeleteRequest id={request.id}/>
+                                    <ViewRequest id={request.id} isIcon={true} />
+                                    <UpdateStatus className={request.status ? 'hidden' : 'inline-block'}  id={request.id} isIcon={true} />
+                                    <DeleteRequest id={request.id} isIcon={true} />
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr className='min-w-full table-col-group text-center'>
-                            <td className='table-col py-10 text-2xl font-bold text-gray-300' colspan='6'>
-                                NO AVAILABLE DATA.
+                            <td className='table-col py-10 text-2xl text-gray-300' colspan='6'>
+                                No available data.
                             </td>
                         </tr>
                     )}

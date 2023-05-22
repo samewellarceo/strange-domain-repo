@@ -34,13 +34,22 @@ export default function Request({ auth, data }) {
                                 <p className='mt-1 text-lg'>{data.message}</p>
                             </div>
                             <div className='border-b px-6 py-4 my-3'>
-                                <InputLabel htmlFor="date" value="Date and Time" className='mr-2' />
+                                <InputLabel htmlFor="date" value="Date and Time of Request" className='mr-2' />
                                 <p className='mt-1 text-lg'>{new Date(data.created_at).toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'medium' })}</p>
                             </div>
-                            <div className='border-b px-6 py-4 my-3'>
-                                <InputLabel htmlFor="status" value="Status" className='mr-2' />
-                                <p className='mt-1 text-lg'>{data.status ? 'Approved' : 'Pending'}</p>
+                            <div className='flex space-x-80 border-b px-6 py-4 my-3'>
+                                <div>
+                                    <InputLabel htmlFor="status" value="Status" className='mr-2' />
+                                    <p className='mt-1 text-lg'>{data.status ? 'Approved' : 'Pending'}</p>
+                                </div>
+                                {data.status ? (
+                                    <div>
+                                        <InputLabel htmlFor="date" value="Date and Time of Approval" className='mr-2' />
+                                        <p className='mt-1 text-lg'>{new Date(data.updated_at).toLocaleString(undefined, { dateStyle: 'long', timeStyle: 'medium' })}</p>
+                                    </div>
+                                ) : <></>}
                             </div>
+                            
                             <div className='flex justify-between items-center px-6 py-4 mt-6'>
                                 <div>
                                     <UpdateStatus className='mr-6' id={data.id} enableTransition={true} disabled={data.status ? true : false} />

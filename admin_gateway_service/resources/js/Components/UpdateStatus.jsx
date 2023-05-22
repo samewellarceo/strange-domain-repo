@@ -1,8 +1,10 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import { useForm } from '@inertiajs/react';
 import { Transition } from '@headlessui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-export default function UpdateStatus({ id, className, enableTransition = false, disabled = false}) {
+export default function UpdateStatus({ id, className, enableTransition = false, disabled = false, isIcon = false}) {
     const { patch, processing, recentlySuccessful } = useForm({ status: true});
 
     const submit = (e) => {
@@ -16,7 +18,7 @@ export default function UpdateStatus({ id, className, enableTransition = false, 
     return (
         <form onSubmit={submit} className={`space-y-6 inline-block mr-1 ${className}`}>
             <div className="flex items-center gap-4">
-                <PrimaryButton disabled={disabled ? disabled : processing}>Approve</PrimaryButton>
+                <PrimaryButton disabled={disabled ? disabled : processing}>{isIcon ? <FontAwesomeIcon icon={faCheck} size='lg' /> : 'Approve'}</PrimaryButton>
 
                 {enableTransition ? (
                     <Transition

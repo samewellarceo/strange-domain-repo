@@ -1,7 +1,7 @@
 import DangerButton from '@/Components/DangerButton';
 import { useForm } from '@inertiajs/react';
 
-export default function DeleteAllRequest({ className = ''}) {
+export default function DeleteAllRequest({ className }) {
     const { delete: destroy } = useForm();
 
     const submit = (e) => {
