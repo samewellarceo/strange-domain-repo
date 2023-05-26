@@ -3,14 +3,14 @@ import { useForm } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export default function DeleteRequest({ id, className, isIcon = false}) {
+export default function Delete({ id, className, isIcon, routeName, confirmMessage}) {
     const { delete: destroy } = useForm();
 
     const submit = (e) => {
         e.preventDefault();
-        
-        const confirmed = confirm('Delete this request?');
-        if (confirmed) destroy(route('request.delete', { id }));
+
+        const confirmed = confirm(confirmMessage);
+        if (confirmed) destroy(route(routeName, { id }));
         else return 0;
     };
 

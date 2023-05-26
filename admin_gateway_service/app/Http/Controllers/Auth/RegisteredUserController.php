@@ -10,30 +10,38 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): Response
     {
         return Inertia::render('Auth/Register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    public function index()
+    {
+        $user = User::where('id', '!=', auth()->id())->get();
+
+        return Inertia::render('Admins', ['data' => $user]);
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        $user->get();
+
+        return Inertia::render('Admin', ['data' => $user]);
+    }
+
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'email' => 'required|string|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -48,5 +56,22 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+        $user->status = $request->input('status');
+        $user->save();
+
+        return Redirect::route('admin.show', ['id' => $id]);
+    }
+
+    public function destroy(string $id): RedirectResponse
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return Redirect::route('admins');
     }
 }

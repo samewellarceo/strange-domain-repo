@@ -25,7 +25,7 @@ class UserFormRequest extends FormRequest
         return [
             'email' => 'required|string|email|max:255|',
             'message' => 'required|string|max:500',
-            'request_type' => 'required|string|in:registration,new-ip'
+            'request_type' => 'required|string|in:Registration,New IP'
         ];
     }
 

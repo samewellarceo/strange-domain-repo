@@ -27,10 +27,18 @@ class RouteTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_api_show_method(): void
+    {
+        $response = $this->withHeaders($this->secretKey)
+            ->get($this->base_api_url . '/1', $this->ip);
+
+        $response->assertStatus(200);
+    }
+
     public function test_api_update_method(): void
     {
         $response = $this->withHeaders($this->secretKey)
-            ->put($this->base_api_url . '/1', ['status' => true], $this->ip);
+            ->patch($this->base_api_url . '/1', ['status' => true], $this->ip);
 
         $response->assertStatus(200);
     }

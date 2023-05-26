@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
 use Inertia\Inertia;
 
 /*
@@ -21,7 +21,6 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
@@ -31,25 +30,19 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/requests', [RequestsController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('requests');
+Route::middleware(['auth', 'verified'])->prefix('requests')->group(function () {
+    Route::get('/', [RequestsController::class, 'index'])->name('requests');
+    Route::get('/{id}', [RequestsController::class, 'show'])->name('request.show');
+    Route::patch('/{id}', [RequestsController::class, 'update'])->name('request.update');
+    Route::delete('/{id}', [RequestsController::class, 'destroy'])->name('request.delete');
+    Route::delete('/', [RequestsController::class, 'destroyAll'])->name('request.delete.all');
+});
 
-Route::get('/requests/{id}', [RequestsController::class, 'show'])
-    ->middleware(['auth', 'verified'])->name('request.show');
-
-Route::patch('/requests/{id}', [RequestsController::class, 'update'])
-    ->middleware(['auth', 'verified'])->name('request.update');
-
-Route::delete('/requests/{id}', [RequestsController::class, 'destroy'])
-    ->middleware(['auth', 'verified'])->name('request.delete');
-
-Route::delete('/requests/', [RequestsController::class, 'destroyAll'])
-    ->middleware(['auth', 'verified'])->name('request.delete.all');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::middleware(['auth', 'verified'])->prefix('admins')->group(function () {
+    Route::get('/', [RegisteredUserController::class, 'index'])->name('admins');
+    Route::get('/{id}', [RegisteredUserController::class, 'show'])->name('admin.show');
+    Route::patch('/{id}', [RegisteredUserController::class, 'update'])->name('admin.update');
+    Route::delete('/{id}', [RegisteredUserController::class, 'destroy'])->name('admin.delete');
 });
 
 require __DIR__ . '/auth.php';

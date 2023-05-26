@@ -8,7 +8,7 @@ import { Head, useForm } from '@inertiajs/react';
 const Request = ({ request_type, ip }) => {
     const { data, setData, post, processing} = useForm({
         ip,
-        request_type,
+        request_type: request_type === 'new-ip' ? 'New IP' : 'Registration',
         email: '',
         message: '',
     });
