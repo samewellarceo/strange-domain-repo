@@ -31,6 +31,8 @@ const Filter = ({filters, filterUpdated}) => {
         filterUpdated(newFilterIDs);
     };
 
+    filterArray.sort((a, b) => a.id - b.id);
+
     return (
         <div className='flex justify-start items-center'>
             <select
@@ -38,7 +40,7 @@ const Filter = ({filters, filterUpdated}) => {
                 value={value}
                 className="mr-6 py-1 w-40 border border-gray-300 rounded-md text-sm focus:outline-none"
             >
-                <option value=''>Select Filter</option>
+                <option value=''>- Select Filter -</option>
                 {filterArray.map((filter) => (
                     <option value={filter.id}>{filter.name}</option>
                 ))}

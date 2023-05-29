@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\RequestsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,10 +38,10 @@ Route::middleware(['auth', 'verified'])->prefix('requests')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->prefix('admins')->group(function () {
-    Route::get('/', [RegisteredUserController::class, 'index'])->name('admins');
-    Route::get('/{id}', [RegisteredUserController::class, 'show'])->name('admin.show');
-    Route::patch('/{id}', [RegisteredUserController::class, 'update'])->name('admin.update');
-    Route::delete('/{id}', [RegisteredUserController::class, 'destroy'])->name('admin.delete');
+    Route::get('/', [UserController::class, 'index'])->name('admins');
+    Route::get('/{id}', [UserController::class, 'show'])->name('admin.show');
+    Route::patch('/{id}', [UserController::class, 'update'])->name('admin.update');
+    Route::delete('/{id}', [UserController::class, 'destroy'])->name('admin.delete');
 });
 
 require __DIR__ . '/auth.php';
